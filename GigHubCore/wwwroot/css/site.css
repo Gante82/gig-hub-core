@@ -1,0 +1,185 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.voffset {
+    margin-top: 2px;
+}
+
+.voffset1 {
+    margin-top: 5px;
+}
+
+.voffset2 {
+    margin-top: 10px;
+}
+
+.voffset3 {
+    margin-top: 20px;
+}
+
+.voffset4 {
+    margin-top: 40px;
+}
+
+.voffset5 {
+    margin-top: 80px;
+}
+
+
+
+/* Bootstrap Overrides */
+body {
+    font-family: Lato, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+.navbar-brand {
+    font-weight: 700;
+}
+
+.navbar-inverse {
+    background-color: #ff4342;
+    border-color: #ff4342;
+}
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: white;
+    }
+
+    .navbar-inverse .navbar-brand {
+        color: white;
+    }
+
+    .navbar-inverse .btn-link {
+        color: white;
+    }
+
+    .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+        background-color: rgba(226, 49, 49, 0.84);
+    }
+
+.tooltip {
+    font-family: Lato, Helvetica, Arial, sans-serif;
+}
+
+.popover {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    font-size: 17px;
+    padding: 20px 15px;
+    border-radius: 9px;
+}
+
+    .form-control:focus {
+        border-color: #2196F3;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+    select.form-control {
+        height: 51px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+.btn {
+    /*font-size: 17px;
+    padding: 7px 20px;*/
+    border-radius: 9px;
+}
+
+.dropdown-menu {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+    .dropdown-menu li button.btn.btn-link.navbar-btn.navbar-link {
+        color: black;
+        padding: 0px 20px;
+        font-size: 14px;
+        margin: 0px;
+    }
+
+.gigs > li .date {
+    text-align: center;
+}
+
+    .gigs > li .date .month {
+        background: red;
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px 5px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .gigs > li .date .day {
+        background: #f7f7f7;
+        color: #333;
+        font-size: 20px;
+        padding: 5px 5px;
+    }
+
+.gigs > li .artist {
+    font-weight: bold;
+}
+
+.gigs > li .genre {
+    font-size: 15px;
+}
+
+.gig {
+    margin-bottom: 15px;
+}
+
+.gigs > li .actions {
+    font-size: 16px;
+    display: none;
+}
+
+.gigs > li:hover .actions{
+    display: block;
+}

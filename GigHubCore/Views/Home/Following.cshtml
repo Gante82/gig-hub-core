@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Following";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Who I'm Following</h2>
+
+<ul class="artists list-unstyled voffset4">
+    @foreach (var artist in Model)
+    {
+        <li>
+            <div class="artist row">
+                <div class="date col-xs-9 col-md-3">
+                    @artist.Name
+                </div>
+            </div>
+        </li>
+    }
+</ul>

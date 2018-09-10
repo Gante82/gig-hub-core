@@ -1,0 +1,129 @@
+﻿@using GigHubCore.ViewModels
+
+@model GigsViewModel
+
+@{
+    ViewData["Title"] = Model.Heading;
+}
+
+<h1>@Model.Heading</h1>
+
+<ul class="gigs list-unstyled voffset4">
+    @foreach (var gig in Model.UpcomingGigs)
+    {
+        <li>
+            <div class="gig row">
+                <div class="date col-xs-3 col-md-1">
+                    <div class="month">@gig.DateTime.ToString("MMM")</div>
+                    <div class="day">@gig.DateTime.ToString("d ")</div>
+                </div>
+                <div class="details col-xs-5 col-md-2">
+                    <span class="artist">
+                        @gig.Artist.Name
+                    </span>
+                    <div class="genre">
+                        @gig.Genre.Name
+                    </div>
+                </div>
+                <div class="col-xs-2 col-md1">
+                    @if (gig.IsCanceled)
+                    {
+                        <span class="label label-warning">Canceled</span>
+                    }
+                    @if (Model.ShowActions)
+                    {
+                        <div class="row">
+                            <a href="#" data-artist-id="@gig.ArtistId" class="js-toggle-follow">follow</a>
+                        </div>
+                        if (!gig.IsCanceled)
+                        {
+                            <div class="row">
+                                <button data-gig-id="@gig.Id" class="btn btn-default js-toggle-attendance">Going?</button>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+@section scripts
+    {
+    <script>
+        const addAttendance = button => {
+            fetch('https://localhost:44367/api/attendances'
+                , {
+                    method: "post", // *get, post, put, delete, etc.
+                    mode: "cors", // no-cors, cors, *same-origin
+                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: "same-origin", // include, same-origin, *omit
+                    headers: {
+                        "content-type": "application/json; charset=utf-8",
+                        // "content-type": "application/x-www-form-urlencoded",
+                    },
+                    redirect: "follow", // manual, *follow, error
+                    referrer: "no-referrer", // no-referrer, *client
+                    body: JSON.stringify({ gigId: button.dataset.gigId }) // body data type must match "content-type" header
+                })
+                .then(response => {
+                    console.log(response);
+                    if (response.status === 200) {
+                        button.classList.remove('btn-default');
+                        button.classList.add('btn-info');
+                        button.innerHTML = 'going';
+                    }
+                    else {
+                        console.log('Something failed!');
+                    }
+                }); // parses response to json
+        };
+
+        const addFollow = button => {
+            fetch('https://localhost:44367/api/followups'
+                , {
+                    method: "post", // *get, post, put, delete, etc.
+                    mode: "cors", // no-cors, cors, *same-origin
+                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: "same-origin", // include, same-origin, *omit
+                    headers: {
+                        "content-type": "application/json; charset=utf-8",
+                        // "content-type": "application/x-www-form-urlencoded",
+                    },
+                    redirect: "follow", // manual, *follow, error
+                    referrer: "no-referrer", // no-referrer, *client
+                    body: JSON.stringify({ artistId: button.dataset.artistId }) // body data type must match "content-type" header
+                })
+                .then(response => {
+                    console.log(response);
+                    if (response.status === 200) {
+                        button.innerHTML = 'following';
+                    }
+                    else {
+                        console.log('Something failed!');
+                    }
+                }); // parses response to json
+        };
+
+
+        window.onload = () => {
+            let buttonsAttendance = document.querySelectorAll('.js-toggle-attendance');
+
+            buttonsAttendance.forEach(button => {
+                button.addEventListener('click', e => {
+                    addAttendance(e.target);
+                });
+
+            });
+
+            let buttonsFollow = document.querySelectorAll('.js-toggle-follow');
+
+            buttonsFollow.forEach(button => {
+                button.addEventListener('click', e => {
+                    addFollow(e.target);
+                });
+
+            });
+        };
+    </script>
+}

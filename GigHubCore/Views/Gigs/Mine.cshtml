@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Gig>
+
+@{
+    ViewData["Title"] = "My Gigs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Upcoming Gigs</h2>
+
+<ul class="gigs list-unstyled voffset4">
+    @foreach (var gig in Model)
+    {
+        <li>
+            <div class="gig row">
+                <div class="date col-xs-3 col-md-1">
+                    <div class="month">@gig.DateTime.ToString("MMM")</div>
+                    <div class="day">@gig.DateTime.ToString("d ")</div>
+                </div>
+                <div class="details col-xs-5 col-md-2">
+                    <span class="artist">@gig.Venue</span>
+                    <div class="genre">@gig.Genre.Name</div>
+                    <div class="actions">
+                        <a asp-controller="Gigs" asp-action="Edit" asp-route-id="@gig.Id">Edit</a>
+                        <a href="#" class="js-cancel-gig" data-gig-id="@gig.Id">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+@section scripts {
+    <script>
+        if (!Element.prototype.matches)
+            Element.prototype.matches = Element.prototype.msMatchesSelector ||
+                Element.prototype.webkitMatchesSelector;
+
+        if (!Element.prototype.closest)
+            Element.prototype.closest = function (s) {
+                var el = this;
+                if (!document.documentElement.contains(el)) return null;
+                do {
+                    if (el.matches(s)) return el;
+                    el = el.parentElement || el.parentNode;
+                } while (el !== null && el.nodeType === 1);
+                return null;
+            };
+
+        const cancelGig = gigButton => {
+            fetch(`/api/gigs/${gigButton.dataset.gigId}`
+                , {
+                    method: "delete", // *get, post, put, delete, etc.
+                    mode: "cors", // no-cors, cors, *same-origin
+                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: "same-origin", // include, same-origin, *omit
+                    redirect: "follow", // manual, *follow, error
+                    referrer: "no-referrer", // no-referrer, *client
+                })
+                .then(response => {
+                    console.log(response);
+                    if (response.status === 200) {
+                        let liNode = gigButton.closest('li');
+                        $(liNode).fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }
+                    else {
+                        console.log('Something failed!');
+                    }
+                }); // parses response to json        };
+        };
+
+        window.onload = () => {
+            let linksCancel = document.querySelectorAll('.js-cancel-gig');
+
+            linksCancel.forEach(l => {
+                l.addEventListener('click', e => {
+                    var dialog = bootbox.dialog({
+                        title: 'Confirm',
+                        message: "Are you sure you want to cancel this gig?",
+                        buttons: {
+                            no: {
+                                label: "No",
+                                className: 'btn-default',
+                                callback: function () {
+                                    bootbox.hideAll();
+                                }
+                            },
+                            yes: {
+                                label: "Yes",
+                                className: 'btn-danger',
+                                callback: () => { cancelGig(e.target); }
+                            }
+                        }
+                    });
+                });
+            });
+        };
+    </script>
+}
